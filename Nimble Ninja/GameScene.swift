@@ -25,7 +25,7 @@ class GameScene: SKScene {
         movingGround.position = CGPointMake(0, view.frame.size.height / 2)
         addChild(movingGround)
         
-        //add hero
+        // add hero
         hero = NNHero()
         hero.position = CGPointMake(75, movingGround.position.y + movingGround.frame.size.height / 2 + hero.frame.size.height / 2)
         addChild(hero)
@@ -42,6 +42,8 @@ class GameScene: SKScene {
         wallGenerator = NNWallGenerator(color: UIColor.clearColor(), size: view.frame.size)
         wallGenerator.position = view.center
         addChild(wallGenerator)
+        
+        
     }
     
     func start() {

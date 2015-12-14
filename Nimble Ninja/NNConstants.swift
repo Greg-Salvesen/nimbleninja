@@ -10,4 +10,5 @@ import Foundation
 import UIKit
 
 let kNNGroundHeight: CGFloat = 20.0
+let kNNDefaultXToMovePerSecond: CGFloat = 320.0
 
