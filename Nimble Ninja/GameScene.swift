@@ -13,6 +13,7 @@ class GameScene: SKScene {
     var movingGround: NNMovingGround!
     var hero: NNHero!
     var cloudGenerator: NNCloudGenerator!
+    var wallGenerator: NNWallGenerator!
     
     var isRunning = false
     
@@ -36,12 +37,18 @@ class GameScene: SKScene {
         addChild(cloudGenerator)
         cloudGenerator.populate(7)
         cloudGenerator.startGeneratingWithSpawnTime(5)
+        
+        // add wall generation
+        wallGenerator = NNWallGenerator(color: UIColor.clearColor(), size: view.frame.size)
+        wallGenerator.position = view.center
+        addChild(wallGenerator)
     }
     
     func start() {
         isRunning = true
         hero.stop()
         movingGround.start()
+        wallGenerator.startGeneratingWallsEvery(1)
         hero.startRunning()
     }
     
