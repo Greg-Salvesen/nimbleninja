@@ -64,6 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tapToStartLabel.fontName = "Helvetica"
         tapToStartLabel.fontColor = UIColor.blackColor()
         tapToStartLabel.fontSize = 22.0
+        tapToStartLabel.runAction(blinkAnimation())
         addChild(tapToStartLabel)
     }
     
@@ -98,7 +99,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.fontName = "Helvetica"
         gameOverLabel.fontColor = UIColor.blackColor()
         gameOverLabel.fontSize = 22.0
+        gameOverLabel.runAction(blinkAnimation())
         addChild(gameOverLabel)
+    }
+    
+    func blinkAnimation() -> SKAction {
+        let duration = 0.4
+        let fadeOut = SKAction.fadeAlphaTo(0.0, duration: duration)
+        let fadeIn = SKAction.fadeAlphaTo(1.0, duration: duration)
+        let blink = SKAction.sequence([fadeOut, fadeIn])
+        
+        return SKAction.repeatActionForever(blink)
     }
     
     func restart() {
@@ -120,7 +131,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        gameOver()
+        if(!isGameOver) {
+            gameOver()
+        }
     }
    
     override func update(currentTime: CFTimeInterval) {

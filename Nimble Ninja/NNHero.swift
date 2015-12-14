@@ -106,7 +106,7 @@ class NNHero: SKSpriteNode {
     
     func fall() {
         physicsBody?.affectedByGravity = true
-        physicsBody?.applyImpulse(CGVectorMake(-5, 20))
+        physicsBody?.applyImpulse(CGVectorMake(-5, 30))
         
         let rotateBack = SKAction.rotateByAngle(CGFloat(M_PI) / 2, duration: 0.4)
         runAction(rotateBack)
