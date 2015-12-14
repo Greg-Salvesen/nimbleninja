@@ -36,4 +36,9 @@ class NNPointsLabel: SKLabelNode {
         text = label + "\(number)"
     }
     
+    func setNum(num: Int) {
+        number = num
+        text = label + "\(number)"
+    }
+    
 }

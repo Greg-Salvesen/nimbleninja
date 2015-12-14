@@ -28,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addTapToStartLabel()
         addPointsLabels()
         addPhysicsWorld()
+        loadHighScore()
     }
     
     func addMovingGround() {
@@ -82,6 +83,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func loadHighScore() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let highScoreLabel = childNodeWithName("highScoreLabel") as! NNPointsLabel
+        highScoreLabel.setNum(defaults.integerForKey("highScore"))
+    }
+    
     func addPhysicsWorld() {
         physicsWorld.contactDelegate = self
     }
@@ -98,14 +105,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver() {
         isGameOver = true
         
-        //stop everything
+        // stop everything
         hero.fall()
         wallGenerator.stopWalls()
         hero.stop()
         movingGround.stop()
         cloudGenerator.stopGenerating()
         
-        //create game over label
+        // create game over label
         let gameOverLabel = SKLabelNode(text: "Game Over!")
         gameOverLabel.name = "gameOverLabel"
         gameOverLabel.position.x = view!.center.x
@@ -115,6 +122,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.fontSize = 22.0
         gameOverLabel.runAction(blinkAnimation())
         addChild(gameOverLabel)
+        
+        // save current points label value
+        let pointsLabel = childNodeWithName("pointsLabel") as! NNPointsLabel
+        let highscoreLabel = childNodeWithName("highScoreLabel") as! NNPointsLabel
+        
+        if(highscoreLabel.number < pointsLabel.number) {
+            highscoreLabel.setNum(pointsLabel.number)
+            
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setInteger(highscoreLabel.number, forKey: "highScore")
+        }
+        
     }
     
     func blinkAnimation() -> SKAction {
