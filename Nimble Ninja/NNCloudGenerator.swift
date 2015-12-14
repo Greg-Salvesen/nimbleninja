@@ -34,6 +34,10 @@ class NNCloudGenerator: SKSpriteNode {
        generationTimer = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: "generateNewCloud", userInfo: nil, repeats: true)
     }
     
+    func stopGenerating() {
+        generationTimer.invalidate()
+    }
+    
     func generateNewCloud() {
         let x = size.width / 2 + CLOUD_WIDTH / 2
         let y = CGFloat(arc4random_uniform(UInt32(size.height))) - size.height / 2

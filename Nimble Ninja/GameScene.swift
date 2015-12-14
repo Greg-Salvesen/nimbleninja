@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var movingGround: NNMovingGround!
     var hero: NNHero!
@@ -16,6 +16,7 @@ class GameScene: SKScene {
     var wallGenerator: NNWallGenerator!
     
     var isRunning = false
+    var isGameOver = false
     
     override func didMoveToView(view: SKView) {
         backgroundColor = UIColor(red: 159.0/255.0, green: 201.0/255.0, blue: 244.0/255.0, alpha: 1.0)
@@ -52,6 +53,10 @@ class GameScene: SKScene {
         tapToStartLabel.fontColor = UIColor.blackColor()
         tapToStartLabel.fontSize = 22.0
         addChild(tapToStartLabel)
+        
+        // add physics world
+        physicsWorld.contactDelegate = self
+        
     }
     
     func start() {
@@ -63,12 +68,47 @@ class GameScene: SKScene {
         hero.startRunning()
     }
     
+    func gameOver() {
+        isGameOver = true
+        
+        //stop everything
+        hero.physicsBody = nil
+        wallGenerator.stopWalls()
+        hero.stop()
+        movingGround.stop()
+        cloudGenerator.stopGenerating()
+        
+        //create game over label
+        let gameOverLabel = SKLabelNode(text: "Game Over!")
+        gameOverLabel.name = "gameOverLabel"
+        gameOverLabel.position.x = view!.center.x
+        gameOverLabel.position.y = view!.center.y + 40
+        gameOverLabel.fontName = "Helvetica"
+        gameOverLabel.fontColor = UIColor.blackColor()
+        gameOverLabel.fontSize = 22.0
+        addChild(gameOverLabel)
+    }
+    
+    func restart() {
+        let newScene = GameScene(size: view!.bounds.size)
+        newScene.scaleMode = .AspectFill
+        
+        view!.presentScene(newScene)
+        
+    }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if(!isRunning) {
+        if(isGameOver) {
+            restart()
+        } else if(!isRunning) {
             start()
         } else {
             hero.flip()
         }
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        gameOver()
     }
    
     override func update(currentTime: CFTimeInterval) {

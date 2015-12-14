@@ -16,9 +16,17 @@ class NNWall: SKSpriteNode {
     let WALL_COLOR = UIColor.blackColor()
     
     init() {
-        super.init(texture: nil, color: WALL_COLOR, size: CGSizeMake(WALL_WIDTH, WALL_HEIGHT))
+        let size = CGSizeMake(WALL_WIDTH, WALL_HEIGHT)
+        super.init(texture: nil, color: WALL_COLOR, size: size)
         
         startMoving()
+        loadPhysicsBodyWithSize(size)
+    }
+    
+    func loadPhysicsBodyWithSize(size: CGSize) {
+        physicsBody = SKPhysicsBody(rectangleOfSize: size)
+        physicsBody?.categoryBitMask = kNNWallCategory
+        physicsBody?.affectedByGravity = false;
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,6 +36,10 @@ class NNWall: SKSpriteNode {
     func startMoving() {
         let moveLeft = SKAction.moveByX(-kNNDefaultXToMovePerSecond, y: 0, duration: 1.0)
         runAction(SKAction.repeatActionForever(moveLeft))
+    }
+    
+    func stopMoving() {
+        removeAllActions()
     }
     
 }
