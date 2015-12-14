@@ -9,14 +9,16 @@
 import Foundation
 import UIKit
 
-//Configuration
+// Configuration
 let kNNGroundHeight: CGFloat = 20.0
 
-//Initial Variables
+// Initial Variables
 let kNNDefaultXToMovePerSecond: CGFloat = 320.0
 
-//Collision Detection
+// Collision Detection
 let kNNHeroCategory: UInt32 = 0x1 << 0
 let kNNWallCategory: UInt32 = 0x1 << 1
 
-
+// Game Variables
+let kNumberofPointsPerLevel = 5
+let kNNLevelGenerationTimes: [NSTimeInterval] = [1.0, 0.8, 0.6, 0.4, 0.3]

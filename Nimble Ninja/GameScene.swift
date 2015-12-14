@@ -18,6 +18,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isRunning = false
     var isGameOver = false
     
+    var currentLevel = 0
+    
     override func didMoveToView(view: SKView) {
         backgroundColor = UIColor(red: 159.0/255.0, green: 201.0/255.0, blue: 244.0/255.0, alpha: 1.0)
         
@@ -178,6 +180,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let pointsLabel = childNodeWithName("pointsLabel") as! NNPointsLabel
                 pointsLabel.increment()
+                
+                if(pointsLabel.number % kNumberofPointsPerLevel == 0) {
+                    if(currentLevel < 4) {
+                        currentLevel++
+                    }
+                    wallGenerator.stopGenerating()
+                    wallGenerator.startGeneratingWallsEvery(kNNLevelGenerationTimes[currentLevel])
+                }
             }
         }
     }
