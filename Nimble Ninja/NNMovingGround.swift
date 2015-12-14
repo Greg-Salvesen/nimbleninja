@@ -16,7 +16,7 @@ class NNMovingGround: SKSpriteNode {
     let COLOR_TWO = UIColor(red: 120.0/255.0, green: 195.0/255.0, blue: 118.0/255.0, alpha: 1.0)
     
     init(size: CGSize) {
-        super.init(texture: nil, color: UIColor.brownColor(), size: CGSizeMake(size.width * 2, size.height))
+        super.init(texture: nil, color: UIColor.brownColor(), size: CGSizeMake(size.width * 4, size.height))
         anchorPoint = CGPointMake(0, 0.5)
         
         for var i = 0; i < NUMBER_OF_SEGMENTS; i++ {
