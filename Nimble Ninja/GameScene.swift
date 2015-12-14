@@ -26,6 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addCloudGenerator()
         addWallGenerator()
         addTapToStartLabel()
+        addPointsLabels()
         addPhysicsWorld()
     }
     
@@ -66,6 +67,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tapToStartLabel.fontSize = 22.0
         tapToStartLabel.runAction(blinkAnimation())
         addChild(tapToStartLabel)
+    }
+    
+    func addPointsLabels() {
+        let pointsLabel = NNPointsLabel(num: 0, label: "Score: ")
+        pointsLabel.name = "pointsLabel"
+        pointsLabel.position = CGPointMake(60.0, view!.frame.size.height - 35)
+        addChild(pointsLabel)
+        
+        let highScoreLabel = NNPointsLabel(num: 0, label: "High Score: ")
+        highScoreLabel.name = "highScoreLabel"
+        highScoreLabel.position = CGPointMake(view!.frame.size.width - 90, view!.frame.size.height - 35)
+        addChild(highScoreLabel)
+        
     }
     
     func addPhysicsWorld() {
@@ -117,7 +131,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newScene.scaleMode = .AspectFill
         
         view!.presentScene(newScene)
-        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -137,6 +150,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
+        if(wallGenerator.wallTrackers.count > 0) {
+            let wall = wallGenerator.wallTrackers[0] as NNWall
+            
+            let wallLocation = wallGenerator.convertPoint(wall.position, toNode: self)
+            if(wallLocation.x < hero.position.x) {
+                wallGenerator.wallTrackers.removeAtIndex(0)
+                
+                let pointsLabel = childNodeWithName("pointsLabel") as! NNPointsLabel
+                pointsLabel.increment()
+            }
+        }
     }
 }

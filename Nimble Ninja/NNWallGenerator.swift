@@ -13,6 +13,7 @@ class NNWallGenerator: SKSpriteNode {
     
     var generationTimer: NSTimer?
     var walls = [NNWall]()
+    var wallTrackers = [NNWall]()
     
     func startGeneratingWallsEvery(seconds: NSTimeInterval) {
         generationTimer = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: "generateWall", userInfo: nil, repeats: true)
@@ -36,6 +37,7 @@ class NNWallGenerator: SKSpriteNode {
         wall.position.x = size.width / 2 + wall.size.width / 2
         wall.position.y = scale * (kNNGroundHeight / 2 + wall.size.height / 2)
         walls.append(wall)
+        wallTrackers.append(wall)
         addChild(wall)
     }
     
